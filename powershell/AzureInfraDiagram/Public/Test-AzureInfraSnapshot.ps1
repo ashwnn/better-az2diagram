@@ -16,7 +16,7 @@ function Test-AzureInfraSnapshot {
             if ($null -eq $j.PSObject.Properties[$k]) { $problems.Add("missing '$k'") }
         }
         foreach ($r in @($j.resources)) {
-            if (-not ($r.id -and $r.type -and $r.name)) { $problems.Add("resource without id/type/name: $($r.id)"); break }
+            if (-not ($r.id -and $r.type -and $r.name -and $r.subscriptionId -and $r.resourceGroup)) { $problems.Add("resource without id/type/name/subscriptionId/resourceGroup: $($r.id)"); break }
         }
         [pscustomobject]@{
             Path            = $Path

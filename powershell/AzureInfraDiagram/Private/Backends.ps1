@@ -26,10 +26,12 @@ function Invoke-ReadOnlyAzCli {
         $code = $LASTEXITCODE
         $joined = ($text | ForEach-Object { "$_" }) -join "`n"
         if ($code -eq 0) {
-            if ([string]::IsNullOrWhiteSpace($joined)) { return $null }
-            return ($joined | ConvertFrom-Json)
+            # az may print warnings on stderr even when it succeeds; only stdout is JSON.
+            $stdout = (@($text) | Where-Object { $_ -isnot [System.Management.Automation.ErrorRecord] } | ForEach-Object { "$_" }) -join "`n"
+            if ([string]::IsNullOrWhiteSpace($stdout)) { throw "az returned no output for: az $($Arguments[0]) $($Arguments[1])" }
+            return ($stdout | ConvertFrom-Json)
         }
-        if ($joined -match '429|throttl|too many requests' -and $attempt -lt 5) {
+        if ($joined -match '\b429\b|throttl|too many requests' -and $attempt -lt 5) {
             $wait = [Math]::Pow(2, $attempt)
             Write-Warning "Throttled by Azure, waiting $wait s"
             Start-Sleep -Seconds $wait
@@ -61,26 +63,31 @@ function Get-InfraSubscriptions {
 function Get-InfraGraphRows {
     param([string]$Backend, [string]$Query, [string[]]$Subscriptions, [string]$Label)
     $rows = New-Object System.Collections.Generic.List[object]
-    $token = $null
-    $page = 0
-    do {
-        if ($Backend -eq 'AzModule') {
-            $p = @{ Query = $Query; Subscription = $Subscriptions; First = $script:PageSize }
-            if ($token) { $p.SkipToken = $token }
-            $res = Search-AzGraph @p
-            $data = @($res.Data)
-            $token = $res.SkipToken
-        } else {
-            $a = @('graph', 'query', '-q', $Query, '--first', "$script:PageSize", '--subscriptions') + $Subscriptions
-            if ($token) { $a += @('--skip-token', $token) }
-            $res = Invoke-ReadOnlyAzCli -Arguments $a
-            $data = @($res.data)
-            $token = if ($res.skip_token) { $res.skip_token } elseif ($res.skipToken) { $res.skipToken } else { $null }
-        }
-        foreach ($d in $data) { if ($null -ne $d) { $rows.Add($d) } }
-        $page++
-        Write-Verbose "${Label}: page $page, $($rows.Count) rows"
-        if ($token) { Start-Sleep -Milliseconds 400 }
-    } while ($token)
+    # Resource Graph accepts at most 1000 subscriptions per query; the CLI also has a command-line length limit.
+    $batchSize = if ($Backend -eq 'AzModule') { 1000 } else { 200 }
+    for ($offset = 0; $offset -lt $Subscriptions.Count; $offset += $batchSize) {
+        $batch = @($Subscriptions[$offset..([Math]::Min($offset + $batchSize, $Subscriptions.Count) - 1)])
+        $token = $null
+        $page = 0
+        do {
+            if ($Backend -eq 'AzModule') {
+                $p = @{ Query = $Query; Subscription = $batch; First = $script:PageSize }
+                if ($token) { $p.SkipToken = $token }
+                $res = Search-AzGraph @p
+                $data = @($res.Data)
+                $token = $res.SkipToken
+            } else {
+                $a = @('graph', 'query', '-q', $Query, '--first', "$script:PageSize", '--subscriptions') + $batch
+                if ($token) { $a += @('--skip-token', $token) }
+                $res = Invoke-ReadOnlyAzCli -Arguments $a
+                $data = @($res.data)
+                $token = if ($res.skip_token) { $res.skip_token } elseif ($res.skipToken) { $res.skipToken } else { $null }
+            }
+            foreach ($d in $data) { if ($null -ne $d) { $rows.Add($d) } }
+            $page++
+            Write-Verbose "${Label}: page $page, $($rows.Count) rows"
+            if ($token) { Start-Sleep -Milliseconds 400 }
+        } while ($token)
+    }
     , $rows.ToArray()
 }
