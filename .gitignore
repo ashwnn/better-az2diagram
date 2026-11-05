@@ -1,0 +1,9 @@
+node_modules/
+dist/
+__pycache__/
+*.pyc
+# real exports contain resource names, IDs and IPs: never commit them by accident
+inventory.json
+*.snapshot.json
+!sample/inventory.json
+.DS_Store

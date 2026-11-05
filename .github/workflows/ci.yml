@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  viewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Build sample diagram and run the layout audit
+        run: npm run build:sample && npm run qa -- /tmp/atlas
+      - name: Build viewer
+        run: npm run build
+      - name: Produce a snapshot with the PowerShell module (mocked Azure) and render it in the viewer
+        shell: pwsh
+        run: ./powershell/tests/e2e-export.ps1 -Out dist/e2e-inventory.json
+      - run: npm run e2e
+  powershell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pester
+        shell: pwsh
+        run: |
+          Install-Module Pester -MinimumVersion 5.5.0 -Force -Scope CurrentUser
+          Invoke-Pester ./powershell/tests -CI -Output Detailed
