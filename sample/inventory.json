@@ -1,0 +1,1647 @@
+{
+ "schema": "azure-atlas/1",
+ "exportedAt": "2026-11-05T09:00:00Z",
+ "tool": "sample generator",
+ "subscriptions": [
+  {
+   "id": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "name": "Contoso Connectivity",
+   "tenantId": "80dd0553-65fc-5394-a7b9-4b14fe80f6dd"
+  },
+  {
+   "id": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "name": "Contoso Landing Zone Prod",
+   "tenantId": "80dd0553-65fc-5394-a7b9-4b14fe80f6dd"
+  }
+ ],
+ "containers": [
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "name": "Contoso Connectivity",
+   "type": "microsoft.resources/subscriptions",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "state": "Enabled"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "name": "Contoso Landing Zone Prod",
+   "type": "microsoft.resources/subscriptions",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "state": "Enabled"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net",
+   "name": "rg-hub-net",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "resourceGroup": "rg-hub-net",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt",
+   "name": "rg-hub-mgmt",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "resourceGroup": "rg-hub-mgmt",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns",
+   "name": "rg-hub-dns",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "resourceGroup": "rg-hub-dns",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net",
+   "name": "rg-app-prod-net",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "resourceGroup": "rg-app-prod-net",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute",
+   "name": "rg-app-prod-compute",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "resourceGroup": "rg-app-prod-compute",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data",
+   "name": "rg-app-prod-data",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "resourceGroup": "rg-app-prod-data",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod",
+   "name": "rg-data-prod",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "resourceGroup": "rg-data-prod",
+   "tags": {},
+   "properties": {}
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-edge",
+   "name": "rg-edge",
+   "type": "microsoft.resources/subscriptions/resourcegroups",
+   "location": "canadacentral",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "resourceGroup": "rg-edge",
+   "tags": {},
+   "properties": {}
+  }
+ ],
+ "resources": [
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-app-portal",
+   "name": "id-app-portal",
+   "type": "microsoft.managedidentity/userassignedidentities",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "principalId": "a433a0b6-c623-5c19-a299-0fe852cb8fa6",
+    "clientId": "aaec99e1-3ba9-5f7c-860d-f3a22871d518",
+    "tenantId": "80dd0553-65fc-5394-a7b9-4b14fe80f6dd"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-prod",
+   "name": "id-aks-prod",
+   "type": "microsoft.managedidentity/userassignedidentities",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "principalId": "afb8ce4c-b3d1-50d6-b325-2d0d80fd97af",
+    "clientId": "b84201b7-53c6-555e-9df8-4fdf88441e66",
+    "tenantId": "80dd0553-65fc-5394-a7b9-4b14fe80f6dd"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.OperationalInsights/workspaces/law-contoso-hub",
+   "name": "law-contoso-hub",
+   "type": "microsoft.operationalinsights/workspaces",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "sku": {
+     "name": "PerGB2018"
+    },
+    "retentionInDays": 90
+   },
+   "sku": {
+    "name": "PerGB2018"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/networkSecurityGroups/nsg-hub-mgmt",
+   "name": "nsg-hub-mgmt",
+   "type": "microsoft.network/networksecuritygroups",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "securityRules": [
+     {
+      "name": "allow-bastion-ssh"
+     },
+     {
+      "name": "deny-all-in"
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/routeTables/rt-hub-mgmt",
+   "name": "rt-hub-mgmt",
+   "type": "microsoft.network/routetables",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "routes": [
+     {
+      "name": "default-to-fw",
+      "properties": {
+       "addressPrefix": "0.0.0.0/0",
+       "nextHopType": "VirtualAppliance",
+       "nextHopIpAddress": "10.0.0.4"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc",
+   "name": "vnet-hub-cc",
+   "type": "microsoft.network/virtualnetworks",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "addressSpace": {
+     "addressPrefixes": [
+      "10.0.0.0/22"
+     ]
+    },
+    "subnets": [
+     {
+      "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/AzureFirewallSubnet",
+      "name": "AzureFirewallSubnet",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.0.0.0/26",
+       "provisioningState": "Succeeded"
+      }
+     },
+     {
+      "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/AzureBastionSubnet",
+      "name": "AzureBastionSubnet",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.0.0.64/26",
+       "provisioningState": "Succeeded"
+      }
+     },
+     {
+      "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/GatewaySubnet",
+      "name": "GatewaySubnet",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.0.1.0/27",
+       "provisioningState": "Succeeded"
+      }
+     },
+     {
+      "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/snet-mgmt",
+      "name": "snet-mgmt",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.0.3.0/24",
+       "provisioningState": "Succeeded",
+       "networkSecurityGroup": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/networkSecurityGroups/nsg-hub-mgmt"
+       },
+       "routeTable": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/routeTables/rt-hub-mgmt"
+       }
+      }
+     }
+    ],
+    "virtualNetworkPeerings": [
+     {
+      "name": "peer-hub-app",
+      "properties": {
+       "remoteVirtualNetwork": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app"
+       },
+       "peeringState": "Connected",
+       "allowForwardedTraffic": true,
+       "allowGatewayTransit": true
+      }
+     },
+     {
+      "name": "peer-hub-data",
+      "properties": {
+       "remoteVirtualNetwork": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data"
+       },
+       "peeringState": "Connected",
+       "allowForwardedTraffic": true,
+       "allowGatewayTransit": true
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-afw-hub",
+   "name": "pip-afw-hub",
+   "type": "microsoft.network/publicipaddresses",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipAddress": "20.48.10.11",
+    "publicIPAllocationMethod": "Static"
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-bas-hub",
+   "name": "pip-bas-hub",
+   "type": "microsoft.network/publicipaddresses",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipAddress": "20.48.10.12",
+    "publicIPAllocationMethod": "Static"
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-vgw-hub",
+   "name": "pip-vgw-hub",
+   "type": "microsoft.network/publicipaddresses",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipAddress": "20.48.10.13",
+    "publicIPAllocationMethod": "Static"
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/firewallPolicies/afwp-hub",
+   "name": "afwp-hub",
+   "type": "microsoft.network/firewallpolicies",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "sku": {
+     "tier": "Premium"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/azureFirewalls/afw-hub-cc",
+   "name": "afw-hub-cc",
+   "type": "microsoft.network/azurefirewalls",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipConfigurations": [
+     {
+      "name": "ipc",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/AzureFirewallSubnet"
+       },
+       "publicIPAddress": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-afw-hub"
+       },
+       "privateIPAddress": "10.0.0.4"
+      }
+     }
+    ],
+    "firewallPolicy": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/firewallPolicies/afwp-hub"
+    },
+    "sku": {
+     "name": "AZFW_VNet",
+     "tier": "Premium"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/bastionHosts/bas-hub-cc",
+   "name": "bas-hub-cc",
+   "type": "microsoft.network/bastionhosts",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipConfigurations": [
+     {
+      "name": "ipc",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/AzureBastionSubnet"
+       },
+       "publicIPAddress": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-bas-hub"
+       }
+      }
+     }
+    ]
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworkGateways/vgw-hub-cc",
+   "name": "vgw-hub-cc",
+   "type": "microsoft.network/virtualnetworkgateways",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipConfigurations": [
+     {
+      "name": "ipc",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/GatewaySubnet"
+       },
+       "publicIPAddress": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/publicIPAddresses/pip-vgw-hub"
+       }
+      }
+     }
+    ],
+    "gatewayType": "Vpn",
+    "vpnType": "RouteBased",
+    "sku": {
+     "name": "VpnGw2AZ",
+     "tier": "VpnGw2AZ"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/localNetworkGateways/lng-vancouver-dc",
+   "name": "lng-vancouver-dc",
+   "type": "microsoft.network/localnetworkgateways",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "gatewayIpAddress": "203.0.113.10",
+    "localNetworkAddressSpace": {
+     "addressPrefixes": [
+      "192.168.0.0/16"
+     ]
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/connections/cn-hub-to-vancouver",
+   "name": "cn-hub-to-vancouver",
+   "type": "microsoft.network/connections",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-net",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "connectionType": "IPsec",
+    "connectionStatus": "Connected",
+    "virtualNetworkGateway1": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworkGateways/vgw-hub-cc"
+    },
+    "localNetworkGateway2": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/localNetworkGateways/lng-vancouver-dc"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Compute/disks/vm-mgmt01_osdisk",
+   "name": "vm-mgmt01_osdisk",
+   "type": "microsoft.compute/disks",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "diskSizeGB": 128,
+    "managedBy": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Compute/virtualMachines/vm-mgmt01"
+   },
+   "sku": {
+    "name": "Premium_LRS"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/networkInterfaces/nic-vm-mgmt01",
+   "name": "nic-vm-mgmt01",
+   "type": "microsoft.network/networkinterfaces",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "ipConfigurations": [
+     {
+      "name": "ipc",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc/subnets/snet-mgmt"
+       },
+       "privateIPAddress": "10.0.3.4"
+      }
+     }
+    ],
+    "networkSecurityGroup": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/networkSecurityGroups/nsg-hub-mgmt"
+    },
+    "virtualMachine": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Compute/virtualMachines/vm-mgmt01"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Compute/virtualMachines/vm-mgmt01",
+   "name": "vm-mgmt01",
+   "type": "microsoft.compute/virtualmachines",
+   "location": "canadacentral",
+   "resourceGroup": "rg-hub-mgmt",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "hardwareProfile": {
+     "vmSize": "Standard_D2s_v5"
+    },
+    "storageProfile": {
+     "osDisk": {
+      "osType": "Linux",
+      "managedDisk": {
+       "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Compute/disks/vm-mgmt01_osdisk"
+      }
+     },
+     "dataDisks": []
+    },
+    "networkProfile": {
+     "networkInterfaces": [
+      {
+       "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.Network/networkInterfaces/nic-vm-mgmt01"
+      }
+     ]
+    },
+    "provisioningState": "Succeeded"
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net",
+   "name": "privatelink.database.windows.net",
+   "type": "microsoft.network/privatednszones",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "numberOfRecordSets": 4,
+    "numberOfVirtualNetworkLinks": 3
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net/virtualNetworkLinks/link-hub",
+   "name": "link-hub",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net/virtualNetworkLinks/link-app",
+   "name": "link-app",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net/virtualNetworkLinks/link-data",
+   "name": "link-data",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net",
+   "name": "privatelink.blob.core.windows.net",
+   "type": "microsoft.network/privatednszones",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "numberOfRecordSets": 4,
+    "numberOfVirtualNetworkLinks": 3
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/link-hub",
+   "name": "link-hub",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/link-app",
+   "name": "link-app",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/link-data",
+   "name": "link-data",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net",
+   "name": "privatelink.vaultcore.azure.net",
+   "type": "microsoft.network/privatednszones",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "numberOfRecordSets": 4,
+    "numberOfVirtualNetworkLinks": 3
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net/virtualNetworkLinks/link-hub",
+   "name": "link-hub",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net/virtualNetworkLinks/link-app",
+   "name": "link-app",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net/virtualNetworkLinks/link-data",
+   "name": "link-data",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com",
+   "name": "privatelink.documents.azure.com",
+   "type": "microsoft.network/privatednszones",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "numberOfRecordSets": 4,
+    "numberOfVirtualNetworkLinks": 3
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com/virtualNetworkLinks/link-hub",
+   "name": "link-hub",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com/virtualNetworkLinks/link-app",
+   "name": "link-app",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-dns/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com/virtualNetworkLinks/link-data",
+   "name": "link-data",
+   "type": "microsoft.network/privatednszones/virtualnetworklinks",
+   "location": "global",
+   "resourceGroup": "rg-hub-dns",
+   "subscriptionId": "1f53ff51-a471-570e-91bd-d2bf28aa7747",
+   "tags": {},
+   "properties": {
+    "virtualNetwork": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data"
+    },
+    "registrationEnabled": false
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-web",
+   "name": "nsg-snet-web",
+   "type": "microsoft.network/networksecuritygroups",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "securityRules": [
+     {
+      "name": "allow-https"
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-aks",
+   "name": "nsg-snet-aks",
+   "type": "microsoft.network/networksecuritygroups",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "securityRules": [
+     {
+      "name": "allow-lb"
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-pe",
+   "name": "nsg-snet-pe",
+   "type": "microsoft.network/networksecuritygroups",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "securityRules": []
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/routeTables/rt-spoke-default",
+   "name": "rt-spoke-default",
+   "type": "microsoft.network/routetables",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "routes": [
+     {
+      "name": "default",
+      "properties": {
+       "addressPrefix": "0.0.0.0/0",
+       "nextHopType": "VirtualAppliance",
+       "nextHopIpAddress": "10.0.0.4"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app",
+   "name": "vnet-spoke-app",
+   "type": "microsoft.network/virtualnetworks",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "addressSpace": {
+     "addressPrefixes": [
+      "10.10.0.0/22"
+     ]
+    },
+    "subnets": [
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-appgw",
+      "name": "snet-appgw",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.10.0.0/24",
+       "provisioningState": "Succeeded"
+      }
+     },
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-web",
+      "name": "snet-web",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.10.1.0/24",
+       "provisioningState": "Succeeded",
+       "networkSecurityGroup": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-web"
+       },
+       "routeTable": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/routeTables/rt-spoke-default"
+       }
+      }
+     },
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-aks",
+      "name": "snet-aks",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.10.2.0/23",
+       "provisioningState": "Succeeded",
+       "networkSecurityGroup": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-aks"
+       },
+       "routeTable": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/routeTables/rt-spoke-default"
+       }
+      }
+     },
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe",
+      "name": "snet-pe",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.10.3.0/26",
+       "provisioningState": "Succeeded",
+       "networkSecurityGroup": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-pe"
+       }
+      }
+     },
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-appsvc",
+      "name": "snet-appsvc",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.10.3.64/27",
+       "provisioningState": "Succeeded",
+       "routeTable": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/routeTables/rt-spoke-default"
+       },
+       "delegations": [
+        {
+         "name": "d",
+         "properties": {
+          "serviceName": "Microsoft.Web/serverFarms"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "virtualNetworkPeerings": [
+     {
+      "name": "peer-app-hub",
+      "properties": {
+       "remoteVirtualNetwork": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+       },
+       "peeringState": "Connected",
+       "allowForwardedTraffic": true,
+       "allowGatewayTransit": true
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/publicIPAddresses/pip-agw-app",
+   "name": "pip-agw-app",
+   "type": "microsoft.network/publicipaddresses",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "ipAddress": "20.151.4.20",
+    "publicIPAllocationMethod": "Static"
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/waf-app-prod",
+   "name": "waf-app-prod",
+   "type": "microsoft.network/applicationgatewaywebapplicationfirewallpolicies",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "policySettings": {
+     "mode": "Prevention"
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/applicationGateways/agw-app-prod",
+   "name": "agw-app-prod",
+   "type": "microsoft.network/applicationgateways",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "gatewayIPConfigurations": [
+     {
+      "name": "gw",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-appgw"
+       }
+      }
+     }
+    ],
+    "frontendIPConfigurations": [
+     {
+      "name": "pub",
+      "properties": {
+       "publicIPAddress": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/publicIPAddresses/pip-agw-app"
+       }
+      }
+     }
+    ],
+    "firewallPolicy": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/waf-app-prod"
+    },
+    "backendAddressPools": [
+     {
+      "name": "pool-web"
+     }
+    ]
+   },
+   "sku": {
+    "name": "WAF_v2",
+    "tier": "WAF_v2"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/loadBalancers/lbi-web",
+   "name": "lbi-web",
+   "type": "microsoft.network/loadbalancers",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "frontendIPConfigurations": [
+     {
+      "name": "fe",
+      "properties": {
+       "subnet": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-web"
+       },
+       "privateIPAddress": "10.10.1.10"
+      }
+     }
+    ],
+    "backendAddressPools": [
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/loadBalancers/lbi-web/backendAddressPools/pool-web",
+      "name": "pool-web"
+     }
+    ]
+   },
+   "sku": {
+    "name": "Standard"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Compute/virtualMachineScaleSets/vmss-web-prod",
+   "name": "vmss-web-prod",
+   "type": "microsoft.compute/virtualmachinescalesets",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "virtualMachineProfile": {
+     "networkProfile": {
+      "networkInterfaceConfigurations": [
+       {
+        "name": "nic",
+        "properties": {
+         "ipConfigurations": [
+          {
+           "name": "ipc",
+           "properties": {
+            "subnet": {
+             "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-web"
+            },
+            "applicationGatewayBackendAddressPools": [
+             {
+              "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/applicationGateways/agw-app-prod/backendAddressPools/pool-web"
+             }
+            ],
+            "loadBalancerBackendAddressPools": [
+             {
+              "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/loadBalancers/lbi-web/backendAddressPools/pool-web"
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     },
+     "storageProfile": {
+      "osDisk": {
+       "osType": "Linux"
+      }
+     }
+    },
+    "orchestrationMode": "Flexible"
+   },
+   "sku": {
+    "name": "Standard_D4s_v5",
+    "capacity": 3
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ContainerService/managedClusters/aks-app-prod",
+   "name": "aks-app-prod",
+   "type": "microsoft.containerservice/managedclusters",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "kubernetesVersion": "1.31.2",
+    "dnsPrefix": "aks-app-prod",
+    "agentPoolProfiles": [
+     {
+      "name": "system",
+      "count": 3,
+      "vmSize": "Standard_D4s_v5",
+      "vnetSubnetID": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-aks"
+     },
+     {
+      "name": "user",
+      "count": 4,
+      "vmSize": "Standard_D8s_v5",
+      "vnetSubnetID": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-aks"
+     }
+    ],
+    "networkProfile": {
+     "networkPlugin": "azure",
+     "networkPolicy": "cilium"
+    }
+   },
+   "sku": {
+    "name": "Base",
+    "tier": "Standard"
+   },
+   "identity": {
+    "type": "UserAssigned",
+    "userAssignedIdentities": {
+     "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-prod": {
+      "principalId": "b276cf34-7c88-50e4-91e9-13b963f8a16c",
+      "clientId": "477a6606-9154-5a3f-ad6f-1cdbf7a5f3ab"
+     }
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ContainerRegistry/registries/acrcontosoprod",
+   "name": "acrcontosoprod",
+   "type": "microsoft.containerregistry/registries",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "loginServer": "acrcontosoprod.azurecr.io",
+    "publicNetworkAccess": "Disabled"
+   },
+   "sku": {
+    "name": "Premium"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Web/serverfarms/asp-app-prod",
+   "name": "asp-app-prod",
+   "type": "microsoft.web/serverfarms",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "reserved": true
+   },
+   "sku": {
+    "name": "P1v3",
+    "tier": "PremiumV3"
+   },
+   "kind": "linux"
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Web/sites/app-portal-prod",
+   "name": "app-portal-prod",
+   "type": "microsoft.web/sites",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "serverFarmId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Web/serverfarms/asp-app-prod",
+    "virtualNetworkSubnetId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-appsvc",
+    "defaultHostName": "app-portal-prod.azurewebsites.net",
+    "httpsOnly": true
+   },
+   "kind": "app,linux",
+   "identity": {
+    "type": "UserAssigned",
+    "userAssignedIdentities": {
+     "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-app-portal": {
+      "principalId": "1546b14a-4826-54dc-91f7-34f7a3c7cc72",
+      "clientId": "3e22c23d-9fd4-5562-a059-de55351d7f0c"
+     }
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Web/sites/func-orders-prod",
+   "name": "func-orders-prod",
+   "type": "microsoft.web/sites",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "serverFarmId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Web/serverfarms/asp-app-prod",
+    "virtualNetworkSubnetId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-appsvc",
+    "defaultHostName": "func-orders-prod.azurewebsites.net"
+   },
+   "kind": "functionapp,linux",
+   "identity": {
+    "type": "UserAssigned",
+    "userAssignedIdentities": {
+     "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-app-portal": {
+      "principalId": "1546b14a-4826-54dc-91f7-34f7a3c7cc72",
+      "clientId": "3e22c23d-9fd4-5562-a059-de55351d7f0c"
+     }
+    }
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.Insights/components/appi-app-prod",
+   "name": "appi-app-prod",
+   "type": "microsoft.insights/components",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-compute",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "WorkspaceResourceId": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-mgmt/providers/Microsoft.OperationalInsights/workspaces/law-contoso-hub",
+    "Application_Type": "web"
+   },
+   "kind": "web"
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Sql/servers/sql-contoso-prod",
+   "name": "sql-contoso-prod",
+   "type": "microsoft.sql/servers",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "fullyQualifiedDomainName": "sql-contoso-prod.database.windows.net",
+    "publicNetworkAccess": "Disabled",
+    "version": "12.0"
+   },
+   "kind": "v12.0"
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Sql/servers/sql-contoso-prod/databases/sqldb-orders",
+   "name": "sqldb-orders",
+   "type": "microsoft.sql/servers/databases",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "maxSizeBytes": 268435456000
+   },
+   "sku": {
+    "name": "GP_Gen5",
+    "tier": "GeneralPurpose",
+    "capacity": 4
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Sql/servers/sql-contoso-prod/databases/sqldb-catalog",
+   "name": "sqldb-catalog",
+   "type": "microsoft.sql/servers/databases",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "maxSizeBytes": 107374182400
+   },
+   "sku": {
+    "name": "GP_S_Gen5",
+    "tier": "GeneralPurpose",
+    "capacity": 2
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Storage/storageAccounts/stcontosoprod01",
+   "name": "stcontosoprod01",
+   "type": "microsoft.storage/storageaccounts",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "primaryEndpoints": {
+     "blob": "https://stcontosoprod01.blob.core.windows.net/"
+    },
+    "publicNetworkAccess": "Disabled"
+   },
+   "sku": {
+    "name": "Standard_GZRS"
+   },
+   "kind": "StorageV2"
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.KeyVault/vaults/kv-contoso-prod",
+   "name": "kv-contoso-prod",
+   "type": "microsoft.keyvault/vaults",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "vaultUri": "https://kv-contoso-prod.vault.azure.net/",
+    "enableRbacAuthorization": true
+   },
+   "sku": {
+    "name": "premium"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-orders-prod",
+   "name": "cosmos-orders-prod",
+   "type": "microsoft.documentdb/databaseaccounts",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-data",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "documentEndpoint": "https://cosmos-orders-prod.documents.azure.com:443/",
+    "publicNetworkAccess": "Disabled"
+   },
+   "kind": "GlobalDocumentDB"
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/privateEndpoints/pe-sql-prod",
+   "name": "pe-sql-prod",
+   "type": "microsoft.network/privateendpoints",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnet": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe"
+    },
+    "privateLinkServiceConnections": [
+     {
+      "name": "pe-sql-prod",
+      "properties": {
+       "privateLinkServiceId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Sql/servers/sql-contoso-prod",
+       "groupIds": [
+        "sqlServer"
+       ]
+      }
+     }
+    ],
+    "customDnsConfigs": [
+     {
+      "ipAddresses": [
+       "10.10.3.4"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/privateEndpoints/pe-blob-prod",
+   "name": "pe-blob-prod",
+   "type": "microsoft.network/privateendpoints",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnet": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe"
+    },
+    "privateLinkServiceConnections": [
+     {
+      "name": "pe-blob-prod",
+      "properties": {
+       "privateLinkServiceId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Storage/storageAccounts/stcontosoprod01",
+       "groupIds": [
+        "blob"
+       ]
+      }
+     }
+    ],
+    "customDnsConfigs": [
+     {
+      "ipAddresses": [
+       "10.10.3.5"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/privateEndpoints/pe-kv-prod",
+   "name": "pe-kv-prod",
+   "type": "microsoft.network/privateendpoints",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnet": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe"
+    },
+    "privateLinkServiceConnections": [
+     {
+      "name": "pe-kv-prod",
+      "properties": {
+       "privateLinkServiceId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.KeyVault/vaults/kv-contoso-prod",
+       "groupIds": [
+        "vault"
+       ]
+      }
+     }
+    ],
+    "customDnsConfigs": [
+     {
+      "ipAddresses": [
+       "10.10.3.6"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/privateEndpoints/pe-cosmos-prod",
+   "name": "pe-cosmos-prod",
+   "type": "microsoft.network/privateendpoints",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnet": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe"
+    },
+    "privateLinkServiceConnections": [
+     {
+      "name": "pe-cosmos-prod",
+      "properties": {
+       "privateLinkServiceId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-orders-prod",
+       "groupIds": [
+        "Sql"
+       ]
+      }
+     }
+    ],
+    "customDnsConfigs": [
+     {
+      "ipAddresses": [
+       "10.10.3.7"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/privateEndpoints/pe-acr-prod",
+   "name": "pe-acr-prod",
+   "type": "microsoft.network/privateendpoints",
+   "location": "canadacentral",
+   "resourceGroup": "rg-app-prod-net",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnet": {
+     "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/virtualNetworks/vnet-spoke-app/subnets/snet-pe"
+    },
+    "privateLinkServiceConnections": [
+     {
+      "name": "pe-acr-prod",
+      "properties": {
+       "privateLinkServiceId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ContainerRegistry/registries/acrcontosoprod",
+       "groupIds": [
+        "registry"
+       ]
+      }
+     }
+    ],
+    "customDnsConfigs": [
+     {
+      "ipAddresses": [
+       "10.10.3.8"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-sqlmi",
+   "name": "nsg-snet-sqlmi",
+   "type": "microsoft.network/networksecuritygroups",
+   "location": "canadacentral",
+   "resourceGroup": "rg-data-prod",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "securityRules": [
+     {
+      "name": "mi-mgmt"
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data",
+   "name": "vnet-spoke-data",
+   "type": "microsoft.network/virtualnetworks",
+   "location": "canadacentral",
+   "resourceGroup": "rg-data-prod",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "addressSpace": {
+     "addressPrefixes": [
+      "10.20.0.0/24"
+     ]
+    },
+    "subnets": [
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data/subnets/snet-sqlmi",
+      "name": "snet-sqlmi",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.20.0.0/27",
+       "provisioningState": "Succeeded",
+       "networkSecurityGroup": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-sqlmi"
+       },
+       "routeTable": {
+        "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-net/providers/Microsoft.Network/routeTables/rt-spoke-default"
+       },
+       "delegations": [
+        {
+         "name": "d",
+         "properties": {
+          "serviceName": "Microsoft.Sql/managedInstances"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data/subnets/snet-pe",
+      "name": "snet-pe",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "properties": {
+       "addressPrefix": "10.20.0.64/26",
+       "provisioningState": "Succeeded"
+      }
+     }
+    ],
+    "virtualNetworkPeerings": [
+     {
+      "name": "peer-data-hub",
+      "properties": {
+       "remoteVirtualNetwork": {
+        "id": "/subscriptions/1f53ff51-a471-570e-91bd-d2bf28aa7747/resourceGroups/rg-hub-net/providers/Microsoft.Network/virtualNetworks/vnet-hub-cc"
+       },
+       "peeringState": "Connected",
+       "allowForwardedTraffic": true,
+       "allowGatewayTransit": true
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Sql/managedInstances/sqlmi-core-prod",
+   "name": "sqlmi-core-prod",
+   "type": "microsoft.sql/managedinstances",
+   "location": "canadacentral",
+   "resourceGroup": "rg-data-prod",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "subnetId": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-spoke-data/subnets/snet-sqlmi",
+    "vCores": 8,
+    "fullyQualifiedDomainName": "sqlmi-core-prod.abc123.database.windows.net"
+   },
+   "sku": {
+    "name": "GP_Gen5",
+    "tier": "GeneralPurpose"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-edge/providers/Microsoft.Cdn/profiles/afd-contoso",
+   "name": "afd-contoso",
+   "type": "microsoft.cdn/profiles",
+   "location": "global",
+   "resourceGroup": "rg-edge",
+   "subscriptionId": "2ec5e310-927a-50d1-a640-2c9511f35af1",
+   "tags": {},
+   "properties": {
+    "frontDoorId": "9c46c77a-5c2d-572c-8f43-01962e8026e5"
+   },
+   "sku": {
+    "name": "Premium_AzureFrontDoor"
+   }
+  }
+ ],
+ "roleAssignments": [
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ContainerRegistry/registries/acrcontosoprod/providers/Microsoft.Authorization/roleAssignments/fa6c37b9-8833-52ab-9938-eeebe3316e59",
+   "properties": {
+    "principalId": "afb8ce4c-b3d1-50d6-b325-2d0d80fd97af",
+    "principalType": "ServicePrincipal",
+    "scope": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-compute/providers/Microsoft.ContainerRegistry/registries/acrcontosoprod",
+    "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.KeyVault/vaults/kv-contoso-prod/providers/Microsoft.Authorization/roleAssignments/b0344856-8fc9-5279-9fb9-ffca6a93f709",
+   "properties": {
+    "principalId": "a433a0b6-c623-5c19-a299-0fe852cb8fa6",
+    "principalType": "ServicePrincipal",
+    "scope": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.KeyVault/vaults/kv-contoso-prod",
+    "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/4633458b-17de-408a-b874-0445c86b69e6"
+   }
+  },
+  {
+   "id": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Storage/storageAccounts/stcontosoprod01/providers/Microsoft.Authorization/roleAssignments/f6482590-e112-54bb-9d80-0fc68bffe909",
+   "properties": {
+    "principalId": "a433a0b6-c623-5c19-a299-0fe852cb8fa6",
+    "principalType": "ServicePrincipal",
+    "scope": "/subscriptions/2ec5e310-927a-50d1-a640-2c9511f35af1/resourceGroups/rg-app-prod-data/providers/Microsoft.Storage/storageAccounts/stcontosoprod01",
+    "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+   }
+  }
+ ]
+}
