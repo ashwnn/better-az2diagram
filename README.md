@@ -51,7 +51,7 @@ The snapshot contains resource names, IDs and IP addresses, so keep it private. 
 - Nested containers for subscriptions, virtual networks, subnets and resource groups.
 - 101 official Azure Architecture Icons, used as they are.
 - Different line styles for peering, VPN and ExpressRoute, private link, load balancer and Application Gateway backends, and monitoring. DNS links and managed identity role assignments are optional.
-- Minor resources such as NICs, disks, SQL databases, NSGs and route tables show up as badges or chips instead of full cards.
+- Minor resources do not get their own card. NICs, disks and SQL databases are folded into the resource they belong to, NSGs and route tables show as chips on their subnet, and public IPs show as badges. The side panel lists what a card includes.
 
 ## Read-only by design
 

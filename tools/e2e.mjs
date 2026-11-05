@@ -31,7 +31,7 @@ const run = async (name, fn, opts = {}) => {
   ok(errs.length === 0, `${name}: no console/page errors${errs.length ? ' (' + errs[0] + ')' : ''}`);
   await p.close();
 };
-const expected = JSON.parse(readFileSync(snap, 'utf8'));
+const expected = JSON.parse(readFileSync(snap, 'utf8').replace(/^\uFEFF/, ''));
 const audit = (p) => p.evaluate(() => ({ a: window.__atlas.state.audit, n: window.__atlas.state.model.stats }));
 
 await run('empty viewer shows the drop zone', async (p) => {
@@ -56,6 +56,54 @@ await run('upload through the file picker', async (p) => {
   ok(r.n.resources === expected.resources.length, `uploaded snapshot: ${r.n.resources}/${expected.resources.length} resources read`);
   ok(await p.evaluate(() => !!document.querySelector('#stage svg')), 'diagram svg present');
   ok(await p.evaluate(() => document.querySelector('#drop').hidden), 'drop zone hidden after load');
+});
+await run('clicking a card selects it and a click on empty space clears it', async (p) => {
+  await p.goto(base + '/?src=inventory.json');
+  await p.waitForFunction(() => window.__atlas.state.audit, null, { timeout: 60000 });
+  const box = await p.evaluate(() => {
+    const el = document.querySelector('#stage svg .card'); const r = el.getBoundingClientRect();
+    return { id: el.dataset.id, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  });
+  await p.mouse.click(box.x, box.y);
+  ok(await p.evaluate((id) => window.__atlas.state.sel === id, box.id), 'card click selects it');
+  ok(await p.evaluate(() => document.querySelector('#drawer').classList.contains('open')), 'drawer opens on card click');
+  await p.keyboard.press('Escape');
+  ok(await p.evaluate(() => window.__atlas.state.sel === null), 'Escape clears the selection');
+});
+await run('keyboard shortcuts are harmless before a diagram is loaded', async (p) => {
+  await p.goto(base + '/');
+  await p.waitForSelector('#drop:not([hidden])');
+  for (const k of ['f', '=', '-', 'Escape']) await p.keyboard.press(k);
+});
+const load = (p, inv) => p.evaluate(async (j) => { await window.__atlas.readFile(new File([JSON.stringify(j)], 'x.json')); }, inv);
+await run('partial or malformed snapshots still render', async (p) => {
+  await p.goto(base + '/');
+  await p.waitForSelector('#drop:not([hidden])');
+  const sub = '11111111-1111-1111-1111-111111111111';
+  await load(p, {
+    resources: [null, 7,
+      { id: `/subscriptions/${sub}/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/stone`, type: 'Microsoft.Storage/storageAccounts' },
+      { id: `/subscriptions/${sub}/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/sttwo`, name: 'sttwo', type: 'Microsoft.Storage/storageAccounts' },
+      { id: `/subscriptions/${sub}/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/sttwo`, name: 'sttwo', type: 'Microsoft.Storage/storageAccounts' }],
+    subscriptions: [null, { name: 'no id' }], exportedAt: 12345,
+  });
+  const r = await audit(p);
+  ok(r.n.cards === 2, `malformed snapshot: 2 cards drawn, duplicates and junk dropped (${r.n.cards})`);
+  ok(await p.evaluate(() => document.querySelector('#busy').hidden), 'busy overlay is not stuck');
+});
+await run('an orphaned disk is still drawn', async (p) => {
+  await p.goto(base + '/');
+  await p.waitForSelector('#drop:not([hidden])');
+  await load(p, { resources: [{ id: '/subscriptions/22222222-2222-2222-2222-222222222222/resourceGroups/rg/providers/Microsoft.Compute/disks/d1', name: 'd1', type: 'Microsoft.Compute/disks', subscriptionId: '22222222-2222-2222-2222-222222222222', resourceGroup: 'rg', managedBy: '/subscriptions/x/resourceGroups/rg/providers/Microsoft.Compute/virtualMachines/gone', properties: {} }] });
+  const r = await audit(p);
+  ok(r.n.cards === 1, 'orphaned disk is shown as a card');
+});
+await run('a failed redraw does not leave the busy overlay stuck', async (p) => {
+  await p.goto(base + '/?src=inventory.json');
+  await p.waitForFunction(() => window.__atlas.state.audit, null, { timeout: 60000 });
+  await p.evaluate(() => window.__atlas.load({ resources: [{ id: '/x', type: 5 }], containers: 'nope' }).catch(() => {}));
+  ok(await p.evaluate(() => document.querySelector('#busy').hidden), 'busy overlay hidden after a failed load');
+  ok(await p.evaluate(() => !!window.__atlas.state.svg), 'previous diagram is kept');
 });
 await run('?src= loads a hosted snapshot', async (p) => {
   await p.goto(base + '/?src=inventory.json');
