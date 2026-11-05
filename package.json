@@ -1,0 +1,26 @@
+{
+  "name": "better-az2diagram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Another Azure Infrastructure to Diagram: offline, client-side Azure architecture diagrams from a read-only Resource Graph snapshot",
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "build:sample": "node tools/build.mjs sample/inventory.json",
+    "qa": "node tools/check.mjs dist/inventory.html",
+    "e2e": "node tools/e2e.mjs dist/index.html dist/e2e-inventory.json",
+    "shots": "node tools/shots.mjs"
+  },
+  "dependencies": {
+    "elkjs": "^0.9.3",
+    "esbuild": "^0.24.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashwnn/better-az2diagram.git"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}
