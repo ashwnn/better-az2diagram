@@ -18,6 +18,8 @@ jobs:
         run: npm run build:sample && npm run qa -- /tmp/atlas
       - name: Build viewer
         run: npm run build
+      - name: Check published viewer is up to date
+        run: git diff --exit-code -- index.html
       - name: Produce a snapshot with the PowerShell module (mocked Azure) and render it in the viewer
         shell: pwsh
         run: ./powershell/tests/e2e-export.ps1 -Out dist/e2e-inventory.json
@@ -31,3 +33,4 @@ jobs:
         run: |
           Install-Module Pester -MinimumVersion 5.5.0 -Force -Scope CurrentUser
           Invoke-Pester ./powershell/tests -CI -Output Detailed
+

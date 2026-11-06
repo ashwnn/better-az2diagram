@@ -1,5 +1,5 @@
 // Bundles the app into ONE self-contained HTML file (no network needed to open it).
-//   node tools/build.mjs                      -> dist/index.html   (viewer, drop a snapshot or try the sample)
+//   node tools/build.mjs                      -> dist/index.html + index.html (viewer, drop a snapshot or try the sample)
 //   node tools/build.mjs inventory.json       -> dist/inventory.html (snapshot embedded, opens straight to the diagram)
 import { build } from 'esbuild';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -33,3 +33,9 @@ html = html.replace('/*__CSS__*/', () => css).replace('/*__JS__*/', () => code);
 mkdirSync(join(root, 'dist'), { recursive: true });
 writeFileSync(out, html);
 console.log(`wrote ${out} (${(html.length / 1024).toFixed(0)} KB)`);
+if (!input) {
+  const page = join(root, 'index.html');
+  writeFileSync(page, html);
+  console.log(`wrote ${page} (${(html.length / 1024).toFixed(0)} KB)`);
+}
+

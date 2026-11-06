@@ -74,7 +74,7 @@ The exporter only calls `Get-AzSubscription` and `Search-AzGraph`. The CLI backe
 
 ```bash
 npm ci
-npm run build                 # dist/index.html: the viewer (what GitHub Pages serves)
+npm run build                 # dist/index.html and root index.html for GitHub Pages
 npm run build:sample          # dist/inventory.html: the viewer with the sample baked in
 npm run qa                    # headless layout check + screenshots (needs: npx playwright install chromium)
 pwsh ./powershell/tests/e2e-export.ps1 -Out dist/e2e-inventory.json
@@ -86,7 +86,7 @@ pwsh -c "Invoke-Pester ./powershell/tests"
 
 ### Publishing your own copy
 
-Fork the repo, then go to **Settings > Pages** and set the source to **GitHub Actions**. Every push to `main` builds and deploys the viewer. You can commit a snapshot to a private fork and open it with `?src=`, but Pages sites are public on most plans, even for private repos.
+Fork the repo, then go to **Settings > Pages** and set the source to **Deploy from a branch**, `main`, `/(root)`. Run `npm run build` after changing the viewer; it updates the published root `index.html` and `dist/index.html`. Every push to `main` publishes the viewer. You can commit a snapshot to a private fork and open it with `?src=`, but Pages sites are public on most plans, even for private repos.
 
 ## Limitations
 
@@ -97,3 +97,4 @@ Fork the repo, then go to **Settings > Pages** and set the source to **GitHub Ac
 ## Licence
 
 MIT, see [LICENSE](LICENSE). Third-party components, including Microsoft's Azure Architecture Icons (their own terms) and elkjs (EPL-2.0), are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
