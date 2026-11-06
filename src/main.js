@@ -3,6 +3,9 @@ import { computeLayout } from './layout.js';
 import { routeAll } from './router.js';
 import { renderDiagram, labelMetrics, SVG_CSS, iconSlug } from './render.js';
 import { auditGeometry, auditText } from './audit.js';
+import { assignColors } from './colors.js';
+import { figmaSVGString } from './figma.js';
+import { buildLegend as buildCanvasLegend, legendSize, LEGEND } from './legend.js';
 import ICONS from '../icons/icons.json';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -11,7 +14,7 @@ const safe = (fn, d) => { try { return fn(); } catch { return d; } };
 
 const state = {
   inv: null, opts: { rgMode: 'loose', identity: false }, fams: Object.fromEntries(Object.entries(FAMILIES).map(([k, v]) => [k, v.on])),
-  model: null, layout: null, routing: null, svg: null, viewport: null, view: { k: 1, x: 0, y: 0 }, sel: null, audit: null, incident: new Map(),
+  model: null, layout: null, routing: null, colors: new Map(), svg: null, viewport: null, view: { k: 1, x: 0, y: 0 }, sel: null, audit: null, incident: new Map(),
 };
 
 // ------------------------------------------------------------------ theme
@@ -42,18 +45,26 @@ async function draw(inv, seq, keepView) {
   const t0 = performance.now();
   const model = buildModel(inv, state.opts);
   if (!model.roots.length) { toast('No resources found in this file.'); if (!state.svg) $('#drop').hidden = false; return; }
-  const layout = await computeLayout(model);
+  // the legend sits in the top-left corner: reserve room for it above the diagram and keep every line out of it
+  const lg = legendSize(model);
+  const layout = await computeLayout(model, { padTop: lg.h ? Math.max(70, LEGEND.y + lg.h + 36) : 70 });
   if (seq !== loadSeq) return; // a newer load started while this one was laying out
+  if (lg.h) {
+    layout.bounds.w = Math.max(layout.bounds.w, LEGEND.x + lg.w + 70);
+    layout.reserved = [{ x: LEGEND.x, y: LEGEND.y, w: lg.w, h: lg.h }];
+  }
   const routing = routeAll(model, layout, labelMetrics);
-  const { svg, viewport, size } = renderDiagram(model, layout, routing);
+  const colors = assignColors(model, routing);
+  const { svg, viewport, size } = renderDiagram(model, layout, routing, colors);
   state.inv = inv;
-  Object.assign(state, { model, layout, routing, svg, viewport, size });
+  Object.assign(state, { model, layout, routing, colors, svg, viewport, size });
   state.incident = new Map();
   model.edges.forEach((e) => { [e.a, e.b].forEach((id) => (state.incident.get(id) || state.incident.set(id, []).get(id)).push(e)); });
 
   svg.removeAttribute('viewBox'); svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%');
   const stage = $('#stage'); stage.replaceChildren(svg);
   applyFamilies();
+  refreshLegend();
   bindDiagram();
   const geo = auditGeometry(model, layout, routing);
   const txt = auditText(svg);
@@ -148,13 +159,14 @@ function clearSelection() { state.sel = null; state.svg?.querySelectorAll('.card
 // ------------------------------------------------------------------ drawer
 const portalUrl = (id) => 'https://portal.azure.com/#@/resource' + id;
 function nameOf(id) { return state.layout.rects.get(id)?.model?.title || id; }
+const swClass = (e) => (e.state === 'warn' ? 'warn' : state.colors.has(e.id) ? 'ec' + state.colors.get(e.id) : '');
 function connectionsHTML(id) {
   const list = state.incident.get(id) || [];
   if (!list.length) return '';
   return `<h4>Connections</h4><ul class="conn">${list.map((e) => {
     const other = e.a === id ? e.b : e.a;
     const routed = state.routing.routes.get(e.id)?.status !== 'unrouted';
-    return `<li><button data-go="${esc(other)}"><i class="sw fam-${e.family}"></i><span>${esc(FAMILIES[e.family].label)}${e.label ? ' · ' + esc(e.label) : ''}</span><b>${esc(nameOf(other))}</b>${routed ? '' : '<em>not drawn</em>'}</button></li>`;
+    return `<li><button data-go="${esc(other)}"><i class="sw ${swClass(e)}"></i><span>${esc(FAMILIES[e.family].label)}${e.label ? ' · ' + esc(e.label) : ''}</span><b>${esc(nameOf(other))}</b>${routed ? '' : '<em>not drawn</em>'}</button></li>`;
   }).join('')}</ul>`;
 }
 function openDrawer(id) {
@@ -186,7 +198,7 @@ function openDrawer(id) {
 function openEdge(edgeId) {
   const e = state.model.edges.find((x) => x.id === edgeId), f = FAMILIES[e.family];
   const routed = state.routing.routes.get(e.id)?.status !== 'unrouted';
-  $('#drawer-body').innerHTML = `<div class="d-head"><i class="sw big fam-${e.family}"></i><div><h3>${esc(f.label)}</h3><p>${esc(e.label || e.kind)}</p></div></div>
+  $('#drawer-body').innerHTML = `<div class="d-head"><i class="sw big ${swClass(e)}"></i><div><h3>${esc(f.label)}</h3><p>${esc(e.label || e.kind)}</p></div></div>
     <dl><dt>From</dt><dd><button class="lnk" data-go="${esc(e.a)}">${esc(nameOf(e.a))}</button></dd><dt>To</dt><dd><button class="lnk" data-go="${esc(e.b)}">${esc(nameOf(e.b))}</button></dd>
     ${e.state === 'warn' ? '<dt>State</dt><dd>Not healthy</dd>' : ''}${routed ? '' : '<dt>Drawing</dt><dd>No clean path was available, so no line is drawn.</dd>'}</dl>`;
   $('#drawer').classList.add('open');
@@ -212,8 +224,13 @@ function buildLegend() {
       <span>${esc(f.label)}</span><b>${c}</b></label>`;
   }).join('');
 }
+function refreshLegend() {
+  const old = state.svg.querySelector('.legend'), next = buildCanvasLegend(state.model, state.fams);
+  if (next.empty) { old?.remove(); return; }
+  if (old) old.replaceWith(next.g); else state.viewport.append(next.g);
+}
 function applyFamilies() { Object.entries(state.fams).forEach(([k, on]) => state.svg.classList.toggle('hide-fam-' + k, !on)); buildLegend(); }
-$('#fams').addEventListener('change', (e) => { const k = e.target.dataset.fam; if (k) { state.fams[k] = e.target.checked; state.svg.classList.toggle('hide-fam-' + k, !e.target.checked); } });
+$('#fams').addEventListener('change', (e) => { const k = e.target.dataset.fam; if (k) { state.fams[k] = e.target.checked; state.svg.classList.toggle('hide-fam-' + k, !e.target.checked); refreshLegend(); } });
 $('#opt-rg').addEventListener('change', (e) => { state.opts.rgMode = e.target.value; if (state.inv) load(state.inv); });
 $('#opt-id').addEventListener('change', (e) => { state.opts.identity = e.target.checked; if (e.target.checked) { state.fams.identity = true; } if (state.inv) load(state.inv); });
 
@@ -266,6 +283,26 @@ async function exportPNG() {
   cv.toBlob((b) => (b ? download('azure-atlas.png', b) : toast('PNG export failed: the diagram is too large for this browser. Try SVG instead.')), 'image/png');
 }
 $('#b-svg').onclick = exportSVG; $('#b-png').onclick = exportPNG;
+
+// ---- Figma: flattened SVG with named layers and real text, inlined styles and native drop shadows
+function figmaLabel(kind, id) {
+  const r = state.layout.rects.get(id), m = r?.model;
+  if (kind === 'container') return m ? `${{ subscription: 'Subscription', vnet: 'VNet', subnet: 'Subnet', rg: 'Resource group' }[m.kind] || m.kind} - ${m.title}` : 'Legend swatch';
+  if (kind === 'card') return m ? `${prettyType(m.type)} - ${m.title}` : 'Resource';
+  const e = state.model.edges.find((x) => x.id === id);
+  if (!e) return 'Link';
+  const f = FAMILIES[e.family];
+  return `${kind === 'mark' ? 'Unrouted ' : ''}${f.label}${e.label ? ' ' + e.label : ''} - ${nameOf(e.a)} to ${nameOf(e.b)}`;
+}
+const figmaSVG = () => figmaSVGString(state.svg, { size: state.size, fams: state.fams, label: figmaLabel, background: getComputedStyle(root).getPropertyValue('--bg').trim() });
+const figMenu = (open) => { $('#figmenu').hidden = !open; $('#b-fig').setAttribute('aria-expanded', String(open)); };
+$('#b-fig').onclick = (e) => { e.stopPropagation(); if (state.svg) figMenu($('#figmenu').hidden); };
+document.addEventListener('click', (e) => { if (!e.target.closest('#figmenu')) figMenu(false); });
+$('#b-fig-dl').onclick = () => { try { download('azure-atlas-figma.svg', new Blob([figmaSVG()], { type: 'image/svg+xml' })); figMenu(false); } catch (err) { console.warn(err); toast('Figma export failed: ' + (err?.message || err), 5000); } };
+$('#b-fig-copy').onclick = async () => {
+  try { await navigator.clipboard.writeText(figmaSVG()); figMenu(false); toast('Copied. Paste it onto a Figma canvas with Ctrl/Cmd+V.'); }
+  catch (err) { console.warn(err); toast('Could not copy (the browser blocked clipboard access). Use Download instead.', 5000); }
+};
 
 // ------------------------------------------------------------------ chrome
 function updateChrome() {
@@ -331,12 +368,12 @@ document.addEventListener('keydown', (e) => {
   if (e.target.matches('input,select,textarea') || e.ctrlKey || e.metaKey || e.altKey) return;
   if (!state.svg) return;
   if (e.key === 'f') fit(true); else if (e.key === 't') $('#b-theme').click(); else if (e.key === '/') { e.preventDefault(); $('#q').focus(); }
-  else if (e.key === 'Escape') clearSelection(); else if (e.key === '+' || e.key === '=') $('#b-in').click(); else if (e.key === '-') $('#b-out').click();
+  else if (e.key === 'Escape') { figMenu(false); clearSelection(); } else if (e.key === '+' || e.key === '=') $('#b-in').click(); else if (e.key === '-') $('#b-out').click();
 });
 addEventListener('resize', () => state.svg && fit(false));
 
 // test hooks (also useful from the console)
-window.__atlas = { state, load, readFile, checkSnapshot, audit: () => state.audit, exportSVGString, fit, select, setFamilies: (f) => { Object.assign(state.fams, f); applyFamilies(); } };
+window.__atlas = { state, load, readFile, checkSnapshot, audit: () => state.audit, exportSVGString, figmaSVG: () => figmaSVG(), fit, select, setFamilies: (f) => { Object.assign(state.fams, f); applyFamilies(); refreshLegend(); } };
 
 // ------------------------------------------------------------------ boot
 (async () => {

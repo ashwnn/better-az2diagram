@@ -68,7 +68,7 @@ const kindOptions = {
 
 const elk = new ELK();
 
-export async function computeLayout(model) {
+export async function computeLayout(model, { padTop = 70 } = {}) {
   const info = new Map();   // id -> {kind, parent, depth, header?, card?}
   const parentOf = new Map();
   const walk = (c, parent, depth) => {
@@ -140,7 +140,7 @@ export async function computeLayout(model) {
   const graph = {
     id: 'root',
     layoutOptions: {
-      'elk.algorithm': 'layered', 'elk.direction': 'RIGHT', 'elk.padding': '[top=70,left=70,bottom=70,right=70]',
+      'elk.algorithm': 'layered', 'elk.direction': 'RIGHT', 'elk.padding': `[top=${padTop},left=70,bottom=70,right=70]`,
       'elk.layered.spacing.nodeNodeBetweenLayers': '120', 'elk.spacing.nodeNode': '60', 'elk.spacing.componentComponent': '60',
       'elk.aspectRatio': '1.8', 'elk.layered.considerModelOrder.strategy': 'NODES_AND_EDGES',
     },

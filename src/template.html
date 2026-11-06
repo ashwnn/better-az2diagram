@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Azure Atlas</title>
+<link rel="icon" href="data:,">
 <style>/*__CSS__*/</style>
 </head>
 <body>
@@ -26,6 +27,13 @@
       <i class="sep"></i>
       <button id="b-svg" title="Export SVG" aria-label="Export SVG"><svg viewBox="0 0 18 18"><path d="M9 2.5v8M5.8 7.8 9 11l3.2-3.2M3 13.5v1h12v-1"/></svg></button>
       <button id="b-png" title="Export PNG" aria-label="Export PNG"><svg viewBox="0 0 18 18"><rect x="2.5" y="3.5" width="13" height="11" rx="2"/><circle cx="6.5" cy="7.5" r="1.2"/><path d="m3 13 4-3.5 3 2.5 2-1.5 3 2.5"/></svg></button>
+      <button id="b-fig" title="Export for Figma" aria-label="Export for Figma" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 18 18"><path d="M6 2.5h3v4H6a2 2 0 0 1 0-4zM9 2.5h3a2 2 0 0 1 0 4H9zM6 6.5h3v4H6a2 2 0 0 1 0-4zM6 10.5h3v2a2 2 0 1 1-3-1.7zM9 6.5h.1a2 2 0 1 1 0 4H9z"/></svg></button>
+      <div id="figmenu" class="glass" hidden role="menu">
+        <b>Figma</b>
+        <button role="menuitem" id="b-fig-dl">Download SVG for Figma</button>
+        <button role="menuitem" id="b-fig-copy">Copy SVG for Figma</button>
+        <p>Drag the file onto a Figma canvas, or copy and press Ctrl/Cmd+V there. Cards, lines, labels and icons stay editable and layers are named after your resources.</p>
+      </div>
     </div>
   </header>
 

@@ -10,7 +10,7 @@ const file = resolve(process.argv[2] || 'dist/inventory.html');
 const prefix = process.argv[3] || '/tmp/atlas';
 const dark = process.argv.includes('--dark');
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 2, colorScheme: dark ? 'dark' : 'light' });
 const problems = [];
 page.on('console', (m) => { if (['error', 'warning'].includes(m.type())) problems.push(`console ${m.type()}: ${m.text()}`); });

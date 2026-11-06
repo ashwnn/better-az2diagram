@@ -32,6 +32,7 @@ export function auditGeometry(model, layout, routing) {
         const band = shrink({ x: c.x, y: c.y, w: c.w, h: c.header.h }, 1);
         if (segHitsRect(p, q, band)) errors.push(`${e.kind} edge ${name(e.a)} -> ${name(e.b)} crosses the header of "${c.model.title}"`);
       }
+      for (const r of layout.reserved || []) if (segHitsRect(p, q, r)) errors.push(`${e.kind} edge ${name(e.a)} -> ${name(e.b)} crosses the legend`);
       for (const other of model.edges) {
         const lab = routing.routes.get(other.id)?.label;
         if (lab && other.id !== e.id && segHitsRect(p, q, lab)) errors.push(`${e.kind} edge ${name(e.a)} -> ${name(e.b)} crosses the label "${lab.text}"`);
@@ -43,6 +44,8 @@ export function auditGeometry(model, layout, routing) {
       for (const c of conts) if (hit(rt.label, { x: c.x, y: c.y, w: c.w, h: c.header.h })) errors.push(`label "${rt.label.text}" overlaps a header`);
     }
   }
+
+  for (const r of layout.reserved || []) for (const c of all) if (hit(r, c)) errors.push(`the legend overlaps "${c.model.title}"`);
 
   // 2. containment and sibling overlap
   const kids = new Map();

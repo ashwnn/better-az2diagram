@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const file = resolve(process.argv[2]), out = process.argv[3], dark = process.argv.includes('--dark');
 const tag = dark ? 'dark' : 'light';
-const b = await chromium.launch();
+const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const p = await b.newPage({ viewport: { width: 1600, height: 1000 }, colorScheme: dark ? 'dark' : 'light' });
 await p.goto('file://' + file);
 await p.waitForFunction(() => window.__atlas?.state?.audit);
