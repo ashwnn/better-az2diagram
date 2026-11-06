@@ -44,9 +44,11 @@ function Export-AzureInfraSnapshot {
     $subsMeta = @(Get-InfraSubscriptions -Backend $be)
     if ($SubscriptionId) {
         $wanted = $SubscriptionId | ForEach-Object { $_.ToLowerInvariant() }
+        $found = @($subsMeta | ForEach-Object { $_.id.ToLowerInvariant() })
+        foreach ($w in $wanted) { if ($found -notcontains $w) { Write-Warning "Subscription $w was not found among your enabled subscriptions and is skipped." } }
         $subsMeta = @($subsMeta | Where-Object { $wanted -contains $_.id.ToLowerInvariant() })
     }
-    if ($subsMeta.Count -eq 0) { throw 'No enabled subscriptions found. Sign in first (Connect-AzAccount or az login).' }
+    if ($subsMeta.Count -eq 0) { throw 'No matching enabled subscriptions found. Sign in first (Connect-AzAccount or az login) and check -SubscriptionId.' }
     $subs = @($subsMeta | ForEach-Object { $_.id })
     Write-Host "Exporting $($subs.Count) subscription(s) with the $be backend"
 

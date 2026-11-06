@@ -16,16 +16,17 @@ const js = await build({
 const code = js.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
 const css = readFileSync(join(root, 'src/style.css'), 'utf8');
 let html = readFileSync(join(root, 'src/template.html'), 'utf8');
+const readJson = (file) => JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
 const tag = (id, json) => `<script type="application/json" id="${id}">${json.replace(/</g, '\\u003c')}</script>`;
 
 let out;
 if (input) {
-  const data = JSON.stringify(JSON.parse(readFileSync(input, 'utf8')));
-  html = html.replace('<!--__DATA__-->', tag('atlas-data', data)).replace('<!--__SAMPLE__-->', '');
+  const data = JSON.stringify(readJson(input));
+  html = html.replace('<!--__DATA__-->', () => tag('atlas-data', data)).replace('<!--__SAMPLE__-->', '');
   out = join(root, 'dist', basename(input).replace(/\.json$/i, '') + '.html');
 } else {
-  const sample = JSON.stringify(JSON.parse(readFileSync(join(root, 'sample/inventory.json'), 'utf8')));
-  html = html.replace('<!--__DATA__-->', '').replace('<!--__SAMPLE__-->', tag('atlas-sample', sample));
+  const sample = JSON.stringify(readJson(join(root, 'sample/inventory.json')));
+  html = html.replace('<!--__DATA__-->', '').replace('<!--__SAMPLE__-->', () => tag('atlas-sample', sample));
   out = join(root, 'dist', 'index.html');
 }
 html = html.replace('/*__CSS__*/', () => css).replace('/*__JS__*/', () => code);

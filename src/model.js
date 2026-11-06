@@ -183,6 +183,8 @@ export function buildModel(inv, opts = {}) {
   used.rt.forEach((id) => { if (byId.has(id)) absorbedInto.set(id, null); });
   used.policy.forEach((id) => { if (byId.has(id)) absorbedInto.set(id, null); });
   used.plan.forEach((_, id) => { if (byId.has(id)) absorbedInto.set(id, null); });
+  // a resource folded into an owner that is not in the export (for example a disk of a VM in another scope) stays a card of its own
+  for (const [rid, owner] of [...absorbedInto]) if (owner && !byId.has(owner)) absorbedInto.delete(rid);
 
   const isHiddenType = (r) => {
     const t = T(r);
@@ -340,7 +342,7 @@ export function buildModel(inv, opts = {}) {
   const addEdge = (a, b, family, kind, extra = {}) => {
     if (!a || !b || a === b) return;
     const sym = FAMILIES[family].arrow === 'both' || FAMILIES[family].arrow === 'none';
-    const key = sym ? [family, kind, ...[a, b].sort()].join('|') : [family, kind, a, b].join('|');
+    const key = sym ? [family, kind, ...[a, b].sort()].join('|') : [family, kind, extra.label || '', a, b].join('|');
     if (seen.has(key)) return;
     seen.add(key);
     edges.push({ id: 'e' + edges.length, a, b, family, kind, ...extra });
@@ -398,7 +400,7 @@ export function buildModel(inv, opts = {}) {
     const owner = principals.get(L(p.principalId));
     const scope = L(p.scope);
     if (!owner || !byId.has(scope)) continue;
-    const role = ROLE_NAMES[last(p.roleDefinitionId)] || 'role ' + last(p.roleDefinitionId).slice(0, 8);
+    const role = ROLE_NAMES[L(last(p.roleDefinitionId))] || 'role ' + last(p.roleDefinitionId).slice(0, 8);
     addEdge(entityOf(owner), entityOf(scope), 'identity', 'role', { label: role });
   }
 

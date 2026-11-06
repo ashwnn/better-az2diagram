@@ -21,16 +21,32 @@ function setTheme(t) { root.dataset.theme = t; safe(() => localStorage.setItem('
 setTheme(safe(() => localStorage.getItem('atlas-theme'), null) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
 // ------------------------------------------------------------------ loading
+let loadSeq = 0;
+// Let the browser paint the busy overlay first (requestAnimationFrame is paused in background tabs, so also use a timer).
+const nextFrame = () => new Promise((r) => { let done = false; const go = () => { if (!done) { done = true; r(); } }; requestAnimationFrame(() => setTimeout(go, 0)); setTimeout(go, 150); });
 async function load(inv, { keepView = false } = {}) {
-  state.inv = inv;
+  const seq = ++loadSeq;
+  try {
+    $('#busy').hidden = false;
+    await nextFrame();
+    await draw(inv, seq, keepView);
+  } catch (err) {
+    console.warn(err);
+    toast('Could not draw that snapshot: ' + (err?.message || err), 6000);
+    if (!state.svg) $('#drop').hidden = false;
+  } finally {
+    if (seq === loadSeq) $('#busy').hidden = true;
+  }
+}
+async function draw(inv, seq, keepView) {
   const t0 = performance.now();
-  $('#busy').hidden = false;
-  await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
   const model = buildModel(inv, state.opts);
-  if (!model.roots.length) { $('#busy').hidden = true; toast('No resources found in this file.'); return; }
+  if (!model.roots.length) { toast('No resources found in this file.'); if (!state.svg) $('#drop').hidden = false; return; }
   const layout = await computeLayout(model);
+  if (seq !== loadSeq) return; // a newer load started while this one was laying out
   const routing = routeAll(model, layout, labelMetrics);
   const { svg, viewport, size } = renderDiagram(model, layout, routing);
+  state.inv = inv;
   Object.assign(state, { model, layout, routing, svg, viewport, size });
   state.incident = new Map();
   model.edges.forEach((e) => { [e.a, e.b].forEach((id) => (state.incident.get(id) || state.incident.set(id, []).get(id)).push(e)); });
@@ -45,7 +61,6 @@ async function load(inv, { keepView = false } = {}) {
   if (!keepView) fit(false);
   else applyView();
   updateChrome();
-  $('#busy').hidden = true;
   $('#drop').hidden = true;
   state.sel = null; closeDrawer();
 }
@@ -74,14 +89,16 @@ function centerOn(id) {
 const stage = $('#stage');
 let drag = null;
 stage.addEventListener('wheel', (e) => { e.preventDefault(); if (!state.svg) return; const b = stage.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0016)), e.clientX - b.left, e.clientY - b.top); }, { passive: false });
-stage.addEventListener('pointerdown', (e) => { if (e.button !== 0) return; drag = { x: e.clientX, y: e.clientY, vx: state.view.x, vy: state.view.y, moved: false }; stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointerdown', (e) => { if (e.button !== 0) return; drag = { x: e.clientX, y: e.clientY, vx: state.view.x, vy: state.view.y, moved: false }; });
 stage.addEventListener('pointermove', (e) => {
   if (!drag) return;
   const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
   if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+  if (!drag.moved) safe(() => stage.setPointerCapture(e.pointerId));
   drag.moved = true; stage.classList.add('panning');
   state.view.x = drag.vx + dx; state.view.y = drag.vy + dy; applyView();
 });
+stage.addEventListener('pointercancel', () => { drag = null; stage.classList.remove('panning'); });
 stage.addEventListener('pointerup', (e) => {
   const moved = drag?.moved; drag = null; stage.classList.remove('panning');
   if (moved) return;
@@ -145,7 +162,7 @@ function openDrawer(id) {
   let html = '';
   if (r.kind === 'node') {
     const res = m.res;
-    const sub = state.model.byId && state.inv.subscriptions?.find((s) => s.id.toLowerCase() === String(res.subscriptionId).toLowerCase())?.name;
+    const sub = state.model.byId && state.inv.subscriptions?.find((s) => String(s.id).toLowerCase() === String(res.subscriptionId).toLowerCase())?.name;
     const kv = [['Type', prettyType(m.type)], ['Resource group', res.resourceGroup], ['Subscription', sub || res.subscriptionId], ['Location', res.location], ['SKU', res.sku?.name || res.sku?.tier], ['Kind', res.kind]];
     ['publicNetworkAccess', 'provisioningState', 'kubernetesVersion', 'defaultHostName', 'fullyQualifiedDomainName', 'vaultUri', 'loginServer', 'documentEndpoint', 'gatewayType', 'vpnType', 'connectionStatus'].forEach((k) => { const v = res.properties?.[k]; if (v != null && typeof v !== 'object') kv.push([k.replace(/([A-Z])/g, ' $1').toLowerCase(), v]); });
     const pips = m.badges.find((b) => b.kind === 'public'); if (pips) kv.push(['Public IP', pips.text]);
@@ -177,7 +194,11 @@ function openEdge(edgeId) {
 function closeDrawer() { $('#drawer').classList.remove('open'); }
 $('#drawer').addEventListener('click', (e) => {
   const go = e.target.closest('[data-go]'); if (go) { const id = go.dataset.go; centerOn(id); if (state.layout.rects.get(id)?.kind === 'node') select(id); return; }
-  const cp = e.target.closest('[data-copy]'); if (cp) { safe(() => navigator.clipboard.writeText(cp.dataset.copy)); cp.textContent = 'Copied'; setTimeout(() => (cp.textContent = 'Copy ID'), 1200); }
+  const cp = e.target.closest('[data-copy]');
+  if (cp) {
+    const done = (msg) => { cp.textContent = msg; setTimeout(() => (cp.textContent = 'Copy ID'), 1200); };
+    Promise.resolve().then(() => navigator.clipboard.writeText(cp.dataset.copy)).then(() => done('Copied'), () => done('Copy failed'));
+  }
   if (e.target.closest('#drawer-close')) clearSelection();
 });
 
@@ -193,8 +214,8 @@ function buildLegend() {
 }
 function applyFamilies() { Object.entries(state.fams).forEach(([k, on]) => state.svg.classList.toggle('hide-fam-' + k, !on)); buildLegend(); }
 $('#fams').addEventListener('change', (e) => { const k = e.target.dataset.fam; if (k) { state.fams[k] = e.target.checked; state.svg.classList.toggle('hide-fam-' + k, !e.target.checked); } });
-$('#opt-rg').addEventListener('change', (e) => { state.opts.rgMode = e.target.value; load(state.inv); });
-$('#opt-id').addEventListener('change', (e) => { state.opts.identity = e.target.checked; if (e.target.checked) { state.fams.identity = true; } load(state.inv); });
+$('#opt-rg').addEventListener('change', (e) => { state.opts.rgMode = e.target.value; if (state.inv) load(state.inv); });
+$('#opt-id').addEventListener('change', (e) => { state.opts.identity = e.target.checked; if (e.target.checked) { state.fams.identity = true; } if (state.inv) load(state.inv); });
 
 // ------------------------------------------------------------------ search
 $('#q').addEventListener('input', (e) => {
@@ -238,17 +259,18 @@ async function exportPNG() {
   const { W, H } = state.size, s = Math.min(2, 8000 / Math.max(W, H));
   const img = new Image();
   img.src = URL.createObjectURL(new Blob([exportSVGString()], { type: 'image/svg+xml' }));
-  await img.decode();
+  try { await img.decode(); } catch { URL.revokeObjectURL(img.src); toast('PNG export failed in this browser. Try SVG instead.'); return; }
+  URL.revokeObjectURL(img.src);
   const cv = document.createElement('canvas'); cv.width = Math.round(W * s); cv.height = Math.round(H * s);
   const cx = cv.getContext('2d'); cx.scale(s, s); cx.drawImage(img, 0, 0, W, H);
-  cv.toBlob((b) => download('azure-atlas.png', b), 'image/png');
+  cv.toBlob((b) => (b ? download('azure-atlas.png', b) : toast('PNG export failed: the diagram is too large for this browser. Try SVG instead.')), 'image/png');
 }
 $('#b-svg').onclick = exportSVG; $('#b-png').onclick = exportPNG;
 
 // ------------------------------------------------------------------ chrome
 function updateChrome() {
   const m = state.model, a = state.audit;
-  $('#meta').textContent = `${m.stats.subscriptions} subscription${m.stats.subscriptions === 1 ? '' : 's'} · ${m.stats.cards} cards from ${m.stats.resources} resources · ${m.stats.edges} links` + (m.meta.exportedAt ? ` · snapshot ${m.meta.exportedAt.slice(0, 10)}` : '');
+  $('#meta').textContent = `${m.stats.subscriptions} subscription${m.stats.subscriptions === 1 ? '' : 's'} · ${m.stats.cards} cards from ${m.stats.resources} resources · ${m.stats.edges} links` + (m.meta.exportedAt ? ` · snapshot ${String(m.meta.exportedAt).slice(0, 10)}` : '');
   const pill = $('#check');
   const bad = a.errors.length;
   pill.className = bad ? 'bad' : a.warnings.length ? 'warn' : 'ok';
@@ -263,14 +285,27 @@ $('#b-in').onclick = () => { const b = stage.getBoundingClientRect(); zoomAt(1.3
 $('#b-out').onclick = () => { const b = stage.getBoundingClientRect(); zoomAt(1 / 1.3, b.width / 2, b.height / 2); };
 $('#b-theme').onclick = () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
 $('#b-open').onclick = () => $('#file').click();
-$('#file').addEventListener('change', (e) => e.target.files[0] && readFile(e.target.files[0]));
+$('#file').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) readFile(f); });
 $('#drop-open').onclick = () => $('#file').click();
-$('#drop-sample').onclick = () => { const s = $('#atlas-sample'); if (s) load(JSON.parse(s.textContent)); };
+$('#drop-sample').onclick = () => { const s = $('#atlas-sample'); if (s) load(checkSnapshot(JSON.parse(s.textContent))); };
 function checkSnapshot(inv) {
   if (!inv || typeof inv !== 'object' || Array.isArray(inv)) throw new Error('not an export file (expected a JSON object)');
   if (inv.schema && !String(inv.schema).startsWith('azure-atlas/1')) throw new Error(`unsupported schema "${inv.schema}"`);
   if (!Array.isArray(inv.resources)) throw new Error('missing "resources" array');
-  inv.containers = inv.containers || []; inv.subscriptions = inv.subscriptions || []; inv.roleAssignments = inv.roleAssignments || [];
+  const isObj = (x) => x && typeof x === 'object' && !Array.isArray(x);
+  const list = (a) => (Array.isArray(a) ? a.filter(isObj) : []);
+  const seen = new Set();
+  inv.resources = inv.resources.filter((r) => isObj(r) && typeof r.id === 'string' && r.id && !seen.has(r.id.toLowerCase()) && seen.add(r.id.toLowerCase()));
+  for (const r of inv.resources) {
+    // fill in what the viewer needs from the resource ID when an export left it out
+    r.type = String(r.type ?? '');
+    r.name = r.name || r.id.split('/').pop();
+    r.subscriptionId = r.subscriptionId || r.id.match(/\/subscriptions\/([^/]+)/i)?.[1] || 'unknown';
+    r.resourceGroup = r.resourceGroup || r.id.match(/\/resourcegroups\/([^/]+)/i)?.[1] || '(no resource group)';
+  }
+  inv.containers = list(inv.containers); inv.roleAssignments = list(inv.roleAssignments);
+  inv.subscriptions = list(inv.subscriptions).filter((s) => typeof s.id === 'string' && s.id);
+  if (typeof inv.exportedAt !== 'string') delete inv.exportedAt;
   return inv;
 }
 async function readFile(f) {
@@ -287,10 +322,14 @@ async function loadFromUrl(src) {
     await load(checkSnapshot(await r.json()));
   } catch (err) { toast('Could not load ' + src + ': ' + err.message, 6000); $('#drop').hidden = false; $('#busy').hidden = true; }
 }
-['dragover', 'dragenter'].forEach((ev) => document.addEventListener(ev, (e) => { e.preventDefault(); document.body.classList.add('dragging'); }));
-['dragleave', 'drop'].forEach((ev) => document.addEventListener(ev, (e) => { e.preventDefault(); if (ev === 'drop' || e.target === document.documentElement) document.body.classList.remove('dragging'); if (ev === 'drop' && e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]); }));
+let dragDepth = 0;
+document.addEventListener('dragover', (e) => e.preventDefault());
+document.addEventListener('dragenter', (e) => { e.preventDefault(); dragDepth++; document.body.classList.add('dragging'); });
+document.addEventListener('dragleave', (e) => { e.preventDefault(); if (--dragDepth <= 0) { dragDepth = 0; document.body.classList.remove('dragging'); } });
+document.addEventListener('drop', (e) => { e.preventDefault(); dragDepth = 0; document.body.classList.remove('dragging'); const f = e.dataTransfer?.files[0]; if (f) readFile(f); });
 document.addEventListener('keydown', (e) => {
-  if (e.target.matches('input,select,textarea')) return;
+  if (e.target.matches('input,select,textarea') || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (!state.svg) return;
   if (e.key === 'f') fit(true); else if (e.key === 't') $('#b-theme').click(); else if (e.key === '/') { e.preventDefault(); $('#q').focus(); }
   else if (e.key === 'Escape') clearSelection(); else if (e.key === '+' || e.key === '=') $('#b-in').click(); else if (e.key === '-') $('#b-out').click();
 });
@@ -304,7 +343,9 @@ window.__atlas = { state, load, readFile, checkSnapshot, audit: () => state.audi
   await (document.fonts?.ready || Promise.resolve());
   const embedded = $('#atlas-data');
   const src = new URLSearchParams(location.search).get('src');
-  if (embedded) await load(JSON.parse(embedded.textContent));
-  else if (src) await loadFromUrl(src);
+  if (embedded) {
+    try { await load(checkSnapshot(JSON.parse(embedded.textContent))); }
+    catch (err) { toast('Could not read the embedded snapshot: ' + err.message, 6000); $('#drop').hidden = false; }
+  } else if (src) await loadFromUrl(src);
   else $('#drop').hidden = false;
 })();

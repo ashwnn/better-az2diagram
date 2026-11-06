@@ -105,8 +105,8 @@ dt{color:var(--ink2);text-transform:capitalize}dd{margin:0;word-break:break-word
 #drop h1{margin:0 0 8px;font-size:22px;letter-spacing:-.02em}#drop p{margin:0 0 20px;color:var(--ink2);line-height:1.5}
 #drop button{border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;margin:0 4px}
 #drop button.alt{background:var(--chip-slate-bg);color:var(--ink)}
-body.dragging #drop{display:grid}
 #busy{position:absolute;inset:0;z-index:9;display:grid;place-items:center;background:color-mix(in srgb,var(--bg) 70%,transparent);font-weight:600;color:var(--ink2)}
 #toast{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:10;white-space:pre-line;max-width:min(640px,90vw);padding:12px 16px;border-radius:14px;background:var(--ink);color:var(--bg);font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 [hidden]{display:none!important}
+body.dragging #drop[hidden]{display:grid!important}
 @media (max-width:760px){.search{display:none}#panel{width:calc(100% - 32px);max-height:40%}#drawer{width:calc(100% - 32px)}#meta{max-width:50vw}}
