@@ -3,11 +3,7 @@
 // (or that share a card) never get the same colour, which keeps bundled lines traceable end to end.
 export const PALETTE = 12;
 
-// Palette order is chosen so that consecutive colours are far apart in hue.
-export const EDGE_COLORS = {
-  light: ['#2563eb', '#ea580c', '#16a34a', '#9333ea', '#ec4899', '#0891b2', '#ca8a04', '#4f46e5', '#92400e', '#65a30d', '#0d9488', '#475569'],
-  dark: ['#60a5fa', '#fb923c', '#4ade80', '#c084fc', '#f472b6', '#22d3ee', '#facc15', '#818cf8', '#d4a373', '#a3e635', '#2dd4bf', '#94a3b8'],
-};
+// The 12 colours live in style.css (--ec0..--ec11, light and dark), ordered so consecutive colours are far apart in hue.
 
 const NEAR = 14; // lines closer than this (or crossing) count as "sharing a corridor"
 

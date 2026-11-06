@@ -127,6 +127,17 @@ await run('a wrong file is rejected without breaking the page', async (p) => {
   await p.waitForTimeout(300);
   ok(await p.evaluate(() => !document.querySelector('#drop').hidden), 'drop zone still available');
 });
+await run('legend, per-link colours and the Figma export', async (p) => {
+  await p.goto(base + '/?src=inventory.json');
+  await p.waitForFunction(() => window.__atlas.state.audit, null, { timeout: 60000 });
+  ok(await p.evaluate(() => !!document.querySelector('#stage svg .legend text')), 'legend is drawn in the diagram');
+  const colours = await p.evaluate(() => new Set([...document.querySelectorAll('#stage svg .edge')].map((e) => [...e.classList].find((c) => /^ec\d+$/.test(c))).filter(Boolean)).size);
+  ok(colours >= Math.min(2, expected.resources.length), `links carry per-link colours (${colours} distinct)`);
+  const fig = await p.evaluate(() => window.__atlas.figmaSVG());
+  ok(!/ class="|var\(|<use[ >]|<style|<symbol|<tspan|pathLength/.test(fig), 'Figma SVG has no CSS classes, var(), <use>, <style> or <tspan>');
+  ok(/id="Legend"/.test(fig) && /id="Resources"/.test(fig) && /id="Connections"/.test(fig), 'Figma SVG has named layers');
+  ok(await p.evaluate((s) => !new DOMParser().parseFromString(s, 'image/svg+xml').querySelector('parsererror'), fig), 'Figma SVG is well-formed XML');
+});
 await browser.close(); server.close();
 console.log(fails.length ? `\n${fails.length} FAILED` : '\nall e2e checks passed');
 process.exit(fails.length ? 1 : 0);
