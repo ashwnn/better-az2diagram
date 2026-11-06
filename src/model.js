@@ -12,7 +12,7 @@ export const FAMILIES = {
   traffic: { label: 'Backend traffic', dash: null, width: 1.9, arrow: 'end', on: true },
   monitoring: { label: 'Telemetry', dash: '8 5', width: 1.6, arrow: 'end', on: true },
   dns: { label: 'Private DNS links', dash: '2 5', width: 1.4, arrow: 'none', on: false, cap: 'round' },
-  identity: { label: 'Identity and access', dash: '7 4', width: 1.6, arrow: 'end', on: false },
+  identity: { label: 'Identity and access', dash: '10 4 2 4', width: 1.6, arrow: 'end', on: false },
 };
 
 const ROLE_NAMES = {

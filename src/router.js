@@ -92,6 +92,10 @@ export function routeAll(model, layout, labelMetrics) {
   const cards = [...rects.values()].filter((r) => r.kind === 'node');
   const cardKeepOut = cards.map((c) => inflate(c, CARD_PAD));
   cardKeepOut.forEach((b) => fillRect(b, (k) => { block[k] = 1; }));
+  // areas reserved for non-diagram objects (the legend) are as solid as cards
+  const reserved = (layout.reserved || []).map((r) => inflate(r, CARD_PAD));
+  reserved.forEach((b) => fillRect(b, (k) => { block[k] = 1; }));
+  cardKeepOut.push(...reserved); // labels keep clear of them too
 
   const ancestors = (id) => { const s = new Set(); for (let x = id; x; x = rects.get(x)?.parent) s.add(x); return s; };
 

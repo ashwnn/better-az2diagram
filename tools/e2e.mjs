@@ -21,7 +21,7 @@ const server = createServer((req, res) => {
 }).listen(0);
 const base = `http://127.0.0.1:${server.address().port}`;
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const run = async (name, fn, opts = {}) => {
   const p = await browser.newPage({ viewport: { width: 1400, height: 900 } });
   const errs = [];

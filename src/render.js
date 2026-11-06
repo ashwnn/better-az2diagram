@@ -3,6 +3,7 @@ import TYPEMAP from '../icons/typemap.json';
 import { FAMILIES } from './model.js';
 import { measure, MONO } from './text.js';
 import { CARD } from './layout.js';
+import { PALETTE } from './colors.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 export function h(tag, attrs = {}, ...kids) {
@@ -44,13 +45,17 @@ export const SVG_CSS = `
 .edge .hit{fill:none;stroke:transparent;stroke-width:14;}
 .edge .lab rect{fill:var(--card);stroke-width:1.25;}
 .edge .lab text{font-size:10.5px;font-weight:650;}
-.fam-network .line{stroke:var(--fam-network);} .fam-network .arrow{fill:var(--fam-network);} .fam-network .lab rect{stroke:var(--fam-network);} .fam-network .lab text{fill:var(--fam-network);}
-.fam-privatelink .line{stroke:var(--fam-privatelink);} .fam-privatelink .arrow{fill:var(--fam-privatelink);}
-.fam-traffic .line{stroke:var(--fam-traffic);} .fam-traffic .arrow{fill:var(--fam-traffic);}
-.fam-monitoring .line{stroke:var(--fam-monitoring);} .fam-monitoring .arrow{fill:var(--fam-monitoring);}
-.fam-dns .line{stroke:var(--fam-dns);} .fam-dns .arrow{fill:var(--fam-dns);}
-.fam-identity .line{stroke:var(--fam-identity);} .fam-identity .arrow{fill:var(--fam-identity);} .fam-identity .lab rect{stroke:var(--fam-identity);} .fam-identity .lab text{fill:var(--fam-identity);}
-.edge.warn .line{stroke:var(--warn);stroke-dasharray:6 4;} .edge.warn .arrow{fill:var(--warn);}
+.edge .line{stroke:var(--ink2);} .edge .arrow, .edge .org{fill:var(--ink2);}
+.edge .lab rect{stroke:var(--ink2);} .edge .lab text{fill:var(--ink2);}
+${Array.from({ length: PALETTE }, (_, i) => `.ec${i} .line{stroke:var(--ec${i});} .ec${i} .arrow, .ec${i} .org{fill:var(--ec${i});} .ec${i} .lab rect{stroke:var(--ec${i});} .ec${i} .lab text{fill:var(--ec${i});}`).join('\n')}
+.edge.warn .line{stroke:var(--warn);} .edge.warn .arrow, .edge.warn .org{fill:var(--warn);} .edge.warn .lab rect{stroke:var(--warn);} .edge.warn .lab text{fill:var(--warn);}
+.legend rect.lg-box{fill:var(--card);stroke:var(--card-stroke);stroke-width:1;}
+.legend text{font-size:11.5px;} .legend .lt{font-size:10px;font-weight:700;letter-spacing:.09em;fill:var(--ink3);}
+.legend .lg-line{fill:none;stroke:var(--ink2);stroke-linejoin:round;} .legend .lg-fill{fill:var(--ink2);}
+.legend .bd circle{fill:var(--badge-bg);} .legend .bd path{fill:none;stroke:var(--badge-fg);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.legend .bd.warn circle{fill:var(--warn-bg);} .legend .bd.warn path{stroke:var(--warn);}
+.legend .bd.public circle{fill:var(--public-bg);} .legend .bd.public path{stroke:var(--public);}
+.legend .lg-warn .lg-line{stroke:var(--warn);} .legend .lg-warn .lg-fill{fill:var(--warn);}
 .mk circle{stroke:var(--card);stroke-width:2;}
 .mk.fam-network circle{fill:var(--fam-network);} .mk.fam-privatelink circle{fill:var(--fam-privatelink);} .mk.fam-traffic circle{fill:var(--fam-traffic);}
 .mk.fam-monitoring circle{fill:var(--fam-monitoring);} .mk.fam-dns circle{fill:var(--fam-dns);} .mk.fam-identity circle{fill:var(--fam-identity);}
@@ -65,19 +70,28 @@ export const SVG_CSS = `
 .atlas .card, .atlas .edge{transition:opacity .12s;}
 `;
 
-const GLYPH = {
+export const GLYPH = {
   public: 'M8 2.5a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11zM2.8 8h10.4M8 2.5c1.7 1.6 2.5 3.4 2.5 5.5S9.7 11.9 8 13.5M8 2.5C6.3 4.1 5.5 5.9 5.5 8S6.3 11.9 8 13.5',
   private: 'M5 7V5.5a3 3 0 0 1 6 0V7M4 7h8v6H4z',
   policy: 'M8 2l5 2v4c0 3-2.2 4.7-5 6c-2.8-1.3-5-3-5-6V4z',
   warn: 'M8 3.5v5M8 11.2v.1',
 };
-const BADGE_TIP = { public: 'Public IP', private: 'Public network access disabled', policy: 'Policy attached', warn: 'Needs attention' };
+export const BADGE_TIP = { public: 'Public IP', private: 'Public network access disabled', policy: 'Policy attached', warn: 'Needs attention' };
 
 export const iconSlug = (key) => TYPEMAP[key] || TYPEMAP[key.split('#')[0]] || 'all-resources';
 
+const quadLen = (p, c, q) => {
+  let len = 0, px = p.x, py = p.y;
+  for (let i = 1; i <= 8; i++) {
+    const t = i / 8, u = 1 - t, x = u * u * p.x + 2 * u * t * c.x + t * t * q.x, y = u * u * p.y + 2 * u * t * c.y + t * t * q.y;
+    len += Math.hypot(x - px, y - py); px = x; py = y;
+  }
+  return len;
+};
+// Rounded orthogonal path. Returns the SVG path data and its true length (needed to end dash patterns cleanly).
 function roundedPath(pts, r = 10) {
-  if (pts.length < 2) return '';
-  let d = `M${pts[0].x} ${pts[0].y}`;
+  if (pts.length < 2) return { d: '', len: 0 };
+  let d = `M${pts[0].x} ${pts[0].y}`, len = 0, cur = pts[0];
   for (let i = 1; i < pts.length - 1; i++) {
     const a = pts[i - 1], b = pts[i], c = pts[i + 1];
     const l1 = Math.hypot(b.x - a.x, b.y - a.y), l2 = Math.hypot(c.x - b.x, c.y - b.y);
@@ -85,12 +99,14 @@ function roundedPath(pts, r = 10) {
     const p1 = { x: b.x + ((a.x - b.x) / l1) * rr, y: b.y + ((a.y - b.y) / l1) * rr };
     const p2 = { x: b.x + ((c.x - b.x) / l2) * rr, y: b.y + ((c.y - b.y) / l2) * rr };
     d += `L${p1.x} ${p1.y}Q${b.x} ${b.y} ${p2.x} ${p2.y}`;
+    len += Math.hypot(p1.x - cur.x, p1.y - cur.y) + quadLen(p1, b, p2); cur = p2;
   }
   const z = pts[pts.length - 1];
-  return d + `L${z.x} ${z.y}`;
+  len += Math.hypot(z.x - cur.x, z.y - cur.y);
+  return { d: d + `L${z.x} ${z.y}`, len };
 }
 
-const arrowPath = (tip, from, size) => {
+export const arrowPath = (tip, from, size) => {
   const dx = tip.x - from.x, dy = tip.y - from.y, l = Math.hypot(dx, dy) || 1;
   const ux = dx / l, uy = dy / l, px = -uy, py = ux, back = size, half = size * 0.55;
   return `M${tip.x} ${tip.y}L${tip.x - ux * back + px * half} ${tip.y - uy * back + py * half}L${tip.x - ux * back - px * half} ${tip.y - uy * back - py * half}Z`;
@@ -98,7 +114,7 @@ const arrowPath = (tip, from, size) => {
 
 export function labelMetrics(text) { return { w: Math.ceil(measure(text, 10.5, 650) + 18), h: 20 }; }
 
-export function renderDiagram(model, layout, routing) {
+export function renderDiagram(model, layout, routing, colors = new Map()) {
   const used = new Set();
   const icon = (key, x, y, s, cls) => {
     const slug = iconSlug(key); used.add(slug);
@@ -196,21 +212,42 @@ export function renderDiagram(model, layout, routing) {
       continue;
     }
     const pts = rt.pts.map((p) => ({ ...p }));
-    const size = 5 + fam.width * 1.6;
+    const warn = e.state === 'warn';
+    const size = 6.5 + fam.width * 1.7;
     const wantEnd = fam.arrow === 'end' || fam.arrow === 'both', wantStart = fam.arrow === 'both';
     const n = pts.length;
-    const arrows = [];
-    const shorten = (i, j) => { // pull pts[i] back toward pts[j] by the arrow length
-      const dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, l = Math.hypot(dx, dy);
-      if (l > size * 2) { pts[i] = { x: pts[i].x + (dx / l) * size * 0.9, y: pts[i].y + (dy / l) * size * 0.9 }; }
+    const arrows = [], dots = [];
+    // Pull a line end back under its arrowhead. Short stubs (a card is often only ~10px from the corner) are
+    // shortened too, otherwise the line stops short of the head and the arrow looks cut off.
+    const shorten = (i, j) => {
+      const dx = rt.pts[j].x - rt.pts[i].x, dy = rt.pts[j].y - rt.pts[i].y, l = Math.hypot(dx, dy);
+      const limit = n === 2 && wantEnd && wantStart ? l / 2 : l;
+      const cut = Math.max(0, Math.min(size * 0.8, limit - 0.5));
+      pts[i] = { x: rt.pts[i].x + (dx / l) * cut, y: rt.pts[i].y + (dy / l) * cut };
     };
     if (wantEnd) { arrows.push(arrowPath(rt.pts[n - 1], rt.pts[n - 2], size)); shorten(n - 1, n - 2); }
     if (wantStart) { arrows.push(arrowPath(rt.pts[0], rt.pts[1], size)); shorten(0, 1); }
-    const d = roundedPath(pts);
-    const g = h('g', { class: `edge fam-${e.family}${e.state === 'warn' ? ' warn' : ''}`, 'data-id': e.id, 'data-a': e.a, 'data-b': e.b });
+    // origin marker: a dot where a one-way link starts (and at both ends of an undirected link)
+    const dotAt = (i, j) => {
+      const dx = rt.pts[j].x - rt.pts[i].x, dy = rt.pts[j].y - rt.pts[i].y, l = Math.hypot(dx, dy) || 1, r = fam.width * 0.8 + 1.6;
+      dots.push({ x: rt.pts[i].x + (dx / l) * r * 0.6, y: rt.pts[i].y + (dy / l) * r * 0.6, r });
+    };
+    if (fam.arrow === 'end') dotAt(0, 1);
+    if (fam.arrow === 'none') { dotAt(0, 1); dotAt(n - 1, n - 2); }
+    const { d, len } = roundedPath(pts);
+    // end the dash pattern on a full dash so dotted and dashed lines always reach the arrowhead
+    const dash = warn ? '6 4' : fam.dash;
+    let pathLength = null;
+    if (dash) {
+      const arr = dash.split(' ').map(Number), period = arr.reduce((a, x) => a + x, 0) * (arr.length % 2 ? 2 : 1);
+      pathLength = +(Math.max(1, Math.round((len - arr[0]) / period)) * period + arr[0]).toFixed(3);
+    }
+    const ci = colors.get(e.id);
+    const g = h('g', { class: `edge fam-${e.family}${ci != null ? ' ec' + ci : ''}${warn ? ' warn' : ''}`, 'data-id': e.id, 'data-a': e.a, 'data-b': e.b });
     g.append(h('title', {}, `${fam.label}${e.label ? ' · ' + e.label : ''}\n${A} → ${B}`));
     g.append(h('path', { class: 'hit', d }));
-    g.append(h('path', { class: 'line', d, 'stroke-width': fam.width, 'stroke-dasharray': fam.dash, 'stroke-linecap': fam.cap || 'butt' }));
+    g.append(h('path', { class: 'line', d, 'stroke-width': fam.width, 'stroke-dasharray': dash, pathLength, 'stroke-linecap': fam.cap || 'butt' }));
+    dots.forEach((o) => g.append(h('circle', { class: 'org', cx: o.x, cy: o.y, r: o.r })));
     arrows.forEach((a) => g.append(h('path', { class: 'arrow', d: a })));
     if (rt.label) {
       const L = rt.label, lg = h('g', { class: 'lab' });

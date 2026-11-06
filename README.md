@@ -23,7 +23,7 @@ Turn a read-only snapshot of your Azure setup into a clean architecture diagram 
 
 1. **Export** a snapshot with the PowerShell module in [`powershell/AzureInfraDiagram`](powershell/AzureInfraDiagram). It runs a few Azure Resource Graph queries and writes one JSON file.
 2. **Open** the viewer (the GitHub Pages site, or `dist/index.html` if you build it yourself) and drop the file on it. You can also put the file next to the page and open `?src=inventory.json`.
-3. **Explore**: pan and zoom, hover to highlight connections, click for details, search, switch line types on and off, and export SVG or PNG.
+3. **Explore**: pan and zoom, hover to highlight connections, click for details, search, switch line types on and off, and export SVG, PNG or a Figma-ready SVG.
 
 ## Quick start
 
@@ -51,7 +51,20 @@ The snapshot contains resource names, IDs and IP addresses, so keep it private. 
 - Nested containers for subscriptions, virtual networks, subnets and resource groups.
 - 101 official Azure Architecture Icons, used as they are.
 - Different line styles for peering, VPN and ExpressRoute, private link, load balancer and Application Gateway backends, and monitoring. DNS links and managed identity role assignments are optional.
+- The line style says what a link is, the colour says which link it is. Links that cross, touch or run side by side never share a colour, and one-way links start with a dot and end in an arrowhead, so bundled lines stay traceable.
+- A legend in the top-left corner explains the line styles, markers, badges and containers that are actually in your diagram. It is part of the picture, so it is in every export.
 - Minor resources do not get their own card. NICs, disks and SQL databases are folded into the resource they belong to, NSGs and route tables show as chips on their subnet, and public IPs show as badges. The side panel lists what a card includes.
+
+## Exporting to Figma
+
+The toolbar has a Figma button with two options:
+
+- **Download SVG for Figma** saves `azure-atlas-figma.svg`. Drag it onto a Figma canvas.
+- **Copy SVG for Figma** puts the SVG code on the clipboard. Click on a Figma canvas and press Ctrl/Cmd+V.
+
+This is a different file from the normal SVG export. Figma ignores CSS classes, `var()` colours, `<use>` icons and multi-line text spans, so the Figma export writes everything out as plain attributes. After import you get editable vectors and text, the Azure icons as vector groups, cards with a native drop shadow effect, and layers named after your resources (for example `Storage account - stcontoso`), grouped under Containers, Connections, Resources and Legend. Text uses Inter and Roboto Mono, which Figma includes.
+
+Figma recomputes text widths with its own renderer, so a label can come out a pixel or two different. The export does not yet create Figma components or auto layout.
 
 ## Read-only by design
 
